@@ -102,7 +102,7 @@ class MultiHeadAttentionBlock(nn.Module):
     
     x, self.attention_scores = MultiHeadAttentionBlock.attention(query, key, value, mask, self.dropout)
     
-    # (batch_size, h, seq_len, d_k) -> (batch_size, seq_len, h, d_k) 
+    # (batch_size, h, seq_len, d_k) -> (batch_size, seq_len, h, d_k) -> (batch_size, seq_len, d_model)
     # PyTorch may store transposed tensors in a non-contiguous memory layout, which makes .view() unsafe. .contiguous() ensures the tensor is stored in memory properly so .view() works as expected.
     x = x.transpose(1, 2).contiguous().view(x.shape[0], -1, self.h * self.d_k)
     
